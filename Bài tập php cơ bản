@@ -1,1 +1,66 @@
+**1. Giải pt bậc 2:
+------------------
 
+```sh
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Giải phương trình bậc hai</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <?php 
+            $result = '';
+            if(isset($_POST['tinh']))
+            {
+               	$a = isset($_POST['a']) ? (float)trim($_POST['a']) : '';
+    			$b = isset($_POST['b']) ? (float)trim($_POST['b']) : '';
+    			$c = isset($_POST['c']) ? (float)trim($_POST['c']) : '';
+    			if ($a=='')
+    			{
+    				$result='bạn chưa nhập số a';
+    			}
+    			else if ($a== 0)
+    			{
+    				$result='pt bậc 2 a khác không';
+    			}
+    			else
+    			{
+    				$d= ($b*$b) - (4*$a*$c);
+    				if ($d< 0)
+    				{
+        				$result = 'Phương trình vô nghiệp';
+    				}
+    				else if ($d == 0)
+    				{
+       					$result = 'Phương trình nghiệp kép x1 = x2 = ' . (-$b/2*$a);
+    				}
+    				else 
+    				{
+        				$result = 'Phương trình có hai nghiệp phân biệt, x1 = ' . ((-$b + sqrt($d))/2*$a);
+        				$result .= ',x2 = ' . ((-$b - sqrt($d))/2*$a);
+    				}
+    			}
+            }
+            if(isset($_POST['xoa']))
+            {
+            	
+            }
+           
+        ?>
+        <h1>Giải phương trình bậc hai</h1>
+        <form method="post" action="">
+            <input type="text" style="width: 20px" name="a"/>x<sup>2</sup> 
+            +
+            <input type="text" style="width: 20px" name="b"/>x
+            +
+            <input type="text" name="c" style="width: 20px"/>=0
+            <br/><br/>
+            <input type="submit" name="tinh" value="tim x" style="color: red">
+            <input type="submit" name="xoa" value="xoa" style="color: blue">
+        </form>
+        <?php echo $result; ?>
+    </body>
+</html>
+```
