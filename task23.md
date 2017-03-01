@@ -304,8 +304,8 @@ if (isset($_POST['dangnhap']))
     </head>
     <body>
        <?php 
-       if (isset($_SESSION['username']) && $_SESSION['username']){
-           echo 'Bạn đã đăng nhập với tên là '.$_SESSION['username']."<br/>";
+       if (isset($_SESSION['txtUsername']) && $_SESSION['txtUsername']){
+           echo 'Bạn đã đăng nhập với tên là '.$_SESSION['txtUsername']."<br/>";
            echo 'Click vào đây để <a href="logout.php">Logout</a>';
        }
        else{
@@ -315,3 +315,63 @@ if (isset($_POST['dangnhap']))
     </body>
 </html>
 ```
+
+**2. Chức năng tìm kiếm:
+------------------------
+
+gọi hàm `ketnoi.php` đã xây dựng ở trên để kết nối database
+
+```sh
+<html>
+    <head>
+        <title>Chương trình tìm kiếm</title>
+    </head>
+    <body>
+        <div align="center">
+            <form action="search.php" method="get">
+                Search: <input type="text" name="search" />
+                <input type="submit" name="ok" value="search" />
+            </form>
+        </div>
+        <?php
+        if (isset($_REQUEST['ok'])) 
+        {
+            $search = addslashes($_GET['search']);
+ 
+            if (empty($search)) {
+                echo "Yeu cau nhap du lieu vao o trong";
+            } 
+            else
+            {
+                $query = "select * from users where username like '%$search%'";
+ 
+                include('ketnoi.php');
+ 
+                $sql = mysql_query($query);
+ 
+                $num = mysql_num_rows($sql);
+                if ($num > 0 && $search != "") 
+                {
+                    echo "$num ket qua tra ve voi tu khoa <b>$search</b>";
+                    echo '<table border="1" cellspacing="0" cellpadding="10">';
+                    while ($row = mysql_fetch_assoc($sql)) {
+                        echo '<tr>';
+                            echo "<td>{$row['txtUsername']}</td>";
+                            echo "<td>{$row['txtEmail']}</td>";
+                            echo "<td>{$row['txtFullname']}</td>";
+                            echo "<td>{$row['txtBirthday']}</td>";
+                            echo "<td>{$row['txtSex']}</td>";
+                        echo '</tr>';
+                    }
+                    echo '</table>';
+                } 
+                else {
+                    echo "Khong tim thay ket qua!";
+                }
+            }
+        }
+        ?>   
+    </body>
+</html>
+```
+
